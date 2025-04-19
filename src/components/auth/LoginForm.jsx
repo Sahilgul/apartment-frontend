@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authAPI from '../../api/auth';
 
-const LoginForm = ({ onSuccess, onRegisterClick }) => {
+const LoginForm = ({ onSuccess }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -59,8 +59,8 @@ const LoginForm = ({ onSuccess, onRegisterClick }) => {
       const response = await authAPI.login(formData);
       
       // Store auth tokens in localStorage
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('refreshToken', response.data.refreshToken);
+      localStorage.setItem('token', response.data.access_token);
+      localStorage.setItem('refreshToken', response.data.refresh_token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
       
       setIsLoading(false);
@@ -144,13 +144,13 @@ const LoginForm = ({ onSuccess, onRegisterClick }) => {
       <div className="mt-4 text-center">
         <p className="text-sm text-gray-600">
           Don't have an account?{' '}
-          <button
-            onClick={onRegisterClick}
+          <a
+            href="/register"
             className="text-blue-600 hover:text-blue-800 font-medium"
             type="button"
           >
             Sign up
-          </button>
+          </a>
         </p>
       </div>
     </div>

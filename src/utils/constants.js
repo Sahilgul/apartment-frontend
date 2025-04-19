@@ -57,7 +57,7 @@ export const US_STATES = [
     EDIT_REVIEW: '/reviews/:id/edit',
     SEARCH: '/search',
     PROFILE: '/profile',
-    DASHBOARD: '/dashboard',
+    DASHBOARD: '/users/me/listings',
     NOT_FOUND: '/404'
   };
   

@@ -22,13 +22,22 @@ const Filters = ({ initialFilters = {}, onApplyFilters }) => {
       try {
         setLoading(true);
         
-        // Get list of cities from listings
-        const listingsResponse = await axios.get('http://127.0.0.1:5000/api/listings/');
-        const uniqueCities = [...new Set(listingsResponse.data.map(listing => listing.city))];
+        // // Get list of cities from listings
+        // const listingsResponse = await axios.get('http://127.0.0.1:8080/api/listings/');
+        // const uniqueCities = [...new Set(listingsResponse.data.map(listing => listing.city))];
+        // setCities(uniqueCities.sort());
+
+        const listingsResponse = await axios.get('http://127.0.0.1:8080/api/listings/');
+        const data = listingsResponse.data;
+
+        // Make sure it's an array
+        const listings = Array.isArray(data) ? data : data.listings || data.data || [];
+
+        const uniqueCities = [...new Set(listings.map(listing => listing.city))];
         setCities(uniqueCities.sort());
         
         // Get available amenities
-        const amenitiesResponse = await axios.get('http://127.0.0.1:5000/api/listings/amenities');
+        const amenitiesResponse = await axios.get('http://127.0.0.1:8080/api/listings/amenities');
         setAvailableAmenities(amenitiesResponse.data);
         
         setLoading(false);

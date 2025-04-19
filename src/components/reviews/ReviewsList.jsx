@@ -13,7 +13,7 @@ const ReviewsList = ({ listingId }) => {
     const fetchReviews = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://127.0.0.1:5000/api/reviews/listing/${listingId}`);
+        const response = await axios.get(`http://127.0.0.1:8080/api/reviews/listing/${listingId}`);
         setReviews(response.data);
         setLoading(false);
       } catch (err) {
@@ -27,7 +27,7 @@ const ReviewsList = ({ listingId }) => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const response = await axios.get('http://127.0.0.1:5000/api/users/me', {
+          const response = await axios.get('http://127.0.0.1:8080/api/users/me', {
             headers: { Authorization: `Bearer ${token}` }
           });
           setCurrentUserId(response.data.id);

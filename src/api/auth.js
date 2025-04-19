@@ -10,8 +10,19 @@ const authAPI = {
    * @param {string} userData.role - User role (tenant/landlord)
    * @returns {Promise} - API response
    */
-  register: (userData) => {
-    return api.post('/auth/register', userData);
+  register: async (userData) => {
+    const response = await api.post('/auth/register', userData);
+    // Check if registration returns tokens immediately
+    if (response.data.access_token) {
+      localStorage.setItem('token', response.data.access_token);
+      if (response.data.refresh_token) {
+        localStorage.setItem('refreshToken', response.data.refresh_token);
+      }
+      if (response.data.user) {
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+      }
+    }
+    return response;
   },
   
   /**
@@ -21,8 +32,42 @@ const authAPI = {
    * @param {string} credentials.password - Password
    * @returns {Promise} - API response with tokens
    */
-  login: (credentials) => {
-    return api.post('/auth/login', credentials);
+
+
+  login: async (credentials) => {
+    try {
+      const response = await api.post('/auth/login', credentials);
+      console.log('Login response:', response); // Log full response
+      
+      // Check if token exists and log its value
+      if (response.data.access_token) {
+        console.log('Token found:', response.data.access_token);
+        localStorage.setItem('token', response.data.access_token);
+        console.log('Token after setting:', localStorage.getItem('token')); // Verify storage
+      } else {
+        console.warn('No token found in response:', response.data);
+      }
+      
+      // Same for refresh token
+      if (response.data.refresh_token) {
+        localStorage.setItem('refreshToken', response.data.refresh_token);
+        console.log('Refresh token stored:', localStorage.getItem('refreshToken'));
+      }
+      
+      if (response.data.user) {
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        console.log('User stored:', localStorage.getItem('user'));
+      }
+      
+      return response;
+    } catch (error) {
+      console.error('Login error:', error);
+      // Log the error response if available
+      if (error.response) {
+        console.error('Error response:', error.response.data);
+      }
+      throw error;
+    }
   },
   
   /**
@@ -30,12 +75,28 @@ const authAPI = {
    * @param {string} refreshToken - Refresh token
    * @returns {Promise} - API response with new token
    */
-  refreshToken: (refreshToken) => {
-    return api.post('/auth/refresh', {}, {
+  refreshToken: async (refreshToken = null) => {
+    // Use the provided refresh token or get it from localStorage
+    const token = refreshToken || localStorage.getItem('refreshToken');
+    if (!token) {
+      throw new Error('No refresh token available');
+    }
+    
+    const response = await api.post('/auth/refresh', {}, {
       headers: {
-        Authorization: `Bearer ${refreshToken}`
+        Authorization: `Bearer ${token}`
       }
     });
+    
+    // Update token in localStorage
+    if (response.data.access_token) {
+      localStorage.setItem('token', response.data.access_token);
+    }
+    if (response.data.refresh_token) {
+      localStorage.setItem('refreshToken', response.data.refresh_token);
+    }
+    
+    return response;
   },
   
   /**
@@ -54,6 +115,31 @@ const authAPI = {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
+  },
+
+  /**
+   * Check if user is logged in
+   * @returns {boolean} - True if user is logged in
+   */
+  isLoggedIn: () => {
+    return !!localStorage.getItem('token');
+  },
+
+  /**
+   * Get current user token
+   * @returns {string|null} - Auth token or null
+   */
+  getToken: () => {
+    return localStorage.getItem('token');
+  },
+
+  /**
+   * Get current user data
+   * @returns {Object|null} - User data or null
+   */
+  getCurrentUser: () => {
+    const userData = localStorage.getItem('user');
+    return userData ? JSON.parse(userData) : null;
   }
 };
 

@@ -22,7 +22,7 @@ const ReviewCard = ({ review, currentUserId, onReviewUpdated, onReviewDeleted })
         
         const token = localStorage.getItem('token');
         const response = await axios.put(
-          `http://127.0.0.1:5000/api/reviews/${review.id}`,
+          `http://127.0.0.1:8080/api/reviews/${review.id}`,
           { content, rating },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -47,7 +47,7 @@ const ReviewCard = ({ review, currentUserId, onReviewUpdated, onReviewDeleted })
       setLoading(true);
       
       const token = localStorage.getItem('token');
-      await axios.delete(`http://127.0.0.1:5000/api/reviews/${review.id}`, {
+      await axios.delete(`http://127.0.0.1:8080/api/reviews/${review.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       

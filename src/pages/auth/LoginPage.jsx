@@ -36,7 +36,7 @@ const LoginPage = () => {
         <LoginForm onSubmit={handleLogin} isLoading={loading} />
         <div className="auth-links">
           <p>
-            Don't have an account? <Link to="/register">Register here</Link>
+            {/* Don't have an account? <Link to="/register">Register here</Link> */}
           </p>
         </div>
       </div>

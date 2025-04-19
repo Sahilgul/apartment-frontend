@@ -26,10 +26,18 @@ const usersAPI = {
    * Get listings created by the current user
    * @returns {Promise} - API response with user's listings
    */
-  getUserListings: () => {
-    return api.get('/users/me/listings');
-  },
+  // getUserListings: () => {
+  //   return api.get('/users/me/listings');
+  // },
   
+
+  getUserListings: async () => {
+    const response = await api.get('/users/me/listings');
+    // Check if the response is valid and contains the expected data
+    return response.data.items; // Instead of returning the whole response
+  },
+
+
   /**
    * Upload user profile image
    * @param {File} imageFile - Image file to upload

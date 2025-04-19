@@ -89,7 +89,7 @@ apartment-platform/
 
 ```bash
 # Clone the repository
-$ git clone https://github.com/your-username/apartment-platform.git
+$ git clone https://github.com/Sahilgul/apartment-frontend.git
 $ cd apartment-platform
 
 # Install dependencies

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authAPI from '../../api/auth';
 
-const RegisterForm = ({ onSuccess, onLoginClick }) => {
+const RegisterForm = ({ onSuccess }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
@@ -79,7 +79,7 @@ const RegisterForm = ({ onSuccess, onLoginClick }) => {
     }
     
     // Remove confirmPassword before sending to API
-    const { confirmPassword, ...registrationData } = formData;
+    const { ...registrationData } = formData;
     
     try {
       setIsLoading(true);
@@ -99,7 +99,7 @@ const RegisterForm = ({ onSuccess, onLoginClick }) => {
         onSuccess(response.data);
       } else {
         // Default navigation to login page or confirmation page
-        navigate('/auth/login', { 
+        navigate('/login', { 
           state: { 
             message: 'Registration successful! Please log in.' 
           } 
@@ -242,13 +242,13 @@ const RegisterForm = ({ onSuccess, onLoginClick }) => {
       <div className="mt-4 text-center">
         <p className="text-sm text-gray-600">
           Already have an account?{' '}
-          <button
-            onClick={onLoginClick}
+          <a
+            href="/login"
             className="text-blue-600 hover:text-blue-800 font-medium"
             type="button"
           >
             Log in
-          </button>
+            </a>
         </p>
       </div>
     </div>

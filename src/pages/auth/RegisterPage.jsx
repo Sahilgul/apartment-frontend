@@ -36,7 +36,7 @@ const RegisterPage = () => {
         <RegisterForm onSubmit={handleRegister} isLoading={loading} />
         <div className="auth-links">
           <p>
-            Already have an account? <Link to="/login">Login here</Link>
+            {/* Already have an account? <Link to="/login">Login here</Link> */}
           </p>
         </div>
       </div>

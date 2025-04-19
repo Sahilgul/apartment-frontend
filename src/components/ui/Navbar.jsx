@@ -30,7 +30,7 @@ const Navbar = () => {
       {isAuthenticated && (
         <>
           <NavLink 
-            to="/user/dashboard" 
+            to="/users/me/listings" 
             className={({ isActive }) => isActive ? activeStyle : normalStyle}
           >
             Dashboard

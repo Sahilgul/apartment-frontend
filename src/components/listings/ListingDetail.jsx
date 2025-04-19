@@ -17,7 +17,7 @@ const ListingDetail = ({ listingId }) => {
     const fetchListing = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://127.0.0.1:5000/api/listings/${listingId}`);
+        const response = await axios.get(`http://127.0.0.1:8080/api/listings/${listingId}`);
         setListing(response.data);
         setLoading(false);
       } catch (err) {
@@ -31,7 +31,7 @@ const ListingDetail = ({ listingId }) => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const response = await axios.get('http://127.0.0.1:5000/api/users/me', {
+          const response = await axios.get('http://127.0.0.1:8080/api/users/me', {
             headers: { Authorization: `Bearer ${token}` }
           });
           setCurrentUser(response.data);
@@ -54,7 +54,7 @@ const ListingDetail = ({ listingId }) => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://127.0.0.1:5000/api/listings/${listingId}`, {
+      await axios.delete(`http://127.0.0.1:8080/api/listings/${listingId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       navigate('/listings');

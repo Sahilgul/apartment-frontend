@@ -66,7 +66,7 @@ export const routes = [
     element: <ProtectedRoute><ProfilePage /></ProtectedRoute>,
   },
   {
-    path: '/dashboard',
+    path: '/users/me/listings',
     element: <ProtectedRoute><DashboardPage /></ProtectedRoute>,
   },
   {

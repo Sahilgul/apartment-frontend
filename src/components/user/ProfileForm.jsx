@@ -6,6 +6,7 @@ import LoadingSpinner from '../ui/LoadingSpinner';
 const ProfileForm = ({ user, onCancel, onSuccess }) => {
   const { updateUserProfile } = useUser();
   const { updateUser } = useAuth();
+  
   const [formData, setFormData] = useState({
     username: user?.username || '',
     email: user?.email || '',

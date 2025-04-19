@@ -11,7 +11,7 @@ const AmenitiesSelector = ({ selectedAmenities = [], onChange }) => {
     const fetchAmenities = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get('http://127.0.0.1:5000/api/listings/amenities');
+        const response = await axios.get('http://127.0.0.1:8080/api/listings/amenities');
         setAmenities(response.data);
         setIsLoading(false);
       } catch (err) {
