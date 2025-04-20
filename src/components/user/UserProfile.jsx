@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import  useAuth from '../../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import ErrorBoundary from '../ui/ErrorBoundary';
 import ProfileForm from './ProfileForm';
@@ -25,6 +25,9 @@ const UserProfile = () => {
     return null; // Should be handled by useEffect redirect
   }
 
+  // Extract the actual user data from the Axios response
+  const userData = user.data || {};
+
   return (
     <ErrorBoundary>
       <div className="container mx-auto p-4 max-w-3xl">
@@ -45,13 +48,13 @@ const UserProfile = () => {
               <div className="flex items-center mb-6">
                 <div className="w-20 h-20 bg-gray-300 rounded-full flex items-center justify-center mr-4">
                   <span className="text-3xl text-gray-600">
-                    {user.username?.charAt(0).toUpperCase() || 'U'}
+                    {userData.username?.charAt(0).toUpperCase() || 'U'}
                   </span>
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold">{user.username}</h2>
-                  <p className="text-gray-600">{user.email}</p>
-                  <p className="text-gray-500 capitalize">{user.role}</p>
+                  <h2 className="text-xl font-bold">{userData.username}</h2>
+                  <p className="text-gray-600">{userData.email}</p>
+                  <p className="text-gray-500 capitalize">{userData.role}</p>
                 </div>
               </div>
 
@@ -60,20 +63,20 @@ const UserProfile = () => {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <p className="text-gray-500 text-sm">Username</p>
-                    <p className="font-medium">{user.username}</p>
+                    <p className="font-medium">{userData.username}</p>
                   </div>
                   <div>
                     <p className="text-gray-500 text-sm">Email Address</p>
-                    <p className="font-medium">{user.email}</p>
+                    <p className="font-medium">{userData.email}</p>
                   </div>
                   <div>
                     <p className="text-gray-500 text-sm">Account Type</p>
-                    <p className="font-medium capitalize">{user.role}</p>
+                    <p className="font-medium capitalize">{userData.role}</p>
                   </div>
                   <div>
                     <p className="text-gray-500 text-sm">Member Since</p>
                     <p className="font-medium">
-                      {new Date(user.created_at).toLocaleDateString()}
+                      {userData.created_at && new Date(userData.created_at).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
@@ -81,7 +84,7 @@ const UserProfile = () => {
             </div>
           ) : (
             // Profile edit mode
-            <ProfileForm user={user} onCancel={() => setIsEditing(false)} onSuccess={() => setIsEditing(false)} />
+            <ProfileForm user={userData} onCancel={() => setIsEditing(false)} onSuccess={() => setIsEditing(false)} />
           )}
         </div>
       </div>
